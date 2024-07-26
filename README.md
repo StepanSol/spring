@@ -10,7 +10,7 @@
 
 **Java Core:**
 
-- [ ]  *oop principles*
+- [X]  *oop principles*
 - [ ]  *interface*
 - [ ]  *Приведение типов, instanceof*
 - [ ]  *method overloading*
@@ -20,6 +20,8 @@
 - [ ]  *Serialization*
 - [ ]  *Object: equals, hashCode, clone, wait, notify, toString()*
 - [ ]  *Inner Class, Nested Classes*
+- [ ]  *Stream API*
+- [ ]  *Optional*
 
 **Java Multithreading:**
 
@@ -41,7 +43,7 @@
 - [ ]  *Set:*
 - HashSet 
 - LinkedHashSet 
--TreeSet 
+- TreeSet 
 
 **Spring:**
 
