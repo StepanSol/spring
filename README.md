@@ -11,9 +11,9 @@
 **Java Core:**
 
 - [X]  *oop principles*
-- [ ]  *interface*
-- [ ]  *Приведение типов, instanceof*
-- [ ]  *method overloading*
+- [X]  *interface*
+- [X]  *Приведение типов, instanceof*
+- [X]  *method overloading*
 - [ ]  *Thread*
 - [ ]  *InputStream/OutputStream, FileInputStream, FileOutputStream*
 - [ ]  *Reader/Writer, FileReader/FileWriter*
