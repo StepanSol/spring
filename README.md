@@ -72,7 +72,8 @@
 
 **Git:**
 
-- [ ]  
+- [X]  *First commit*
+- [X]  [*New branch*](https://git-scm.com/book/ru/v2/Ветвление-в-Git-Основы-ветвления-и-слияния)
 
 **HTTP/HTTPS:**
 
