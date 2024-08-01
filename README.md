@@ -7,6 +7,7 @@
 - [X]  *Types*
 - [X]  *Function*
 - [X]  *Packages*
+- [X]  *Generics*
 
 **Java Core:**
 
@@ -31,23 +32,25 @@
 
 **Java Collections:**
 
-- [ ]  *Map:*
-- HashMap
-- LinkedHashMap
-- TreeMap
+ - **Map:**
+ - [ ] *HashMap*
+ - [ ] *LinkedHashMap*
+ - [ ] *TreeMap*
 
-- [ ]  *List:*
-- ArrayList
-- LinkedList
+ - **List:**
+ - [X] *ArrayList*
+ - [X] *LinkedList*
 
-- [ ]  *Set:*
-- HashSet 
-- LinkedHashSet 
-- TreeSet 
+ - **Set:**
+ - [ ] *HashSet*
+ - [ ] *LinkedHashSet*
+ - [ ] *TreeSet*
 
-**Spring:**
+ - **Spring:**
 
-- [ ]
+ - [X] *XML-based Configuration*
+ - [ ] *Annotation-based Configuration*
+ - [ ] *Java-based Configuration*
 
 **Hibernate:**
 
