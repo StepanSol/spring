@@ -21,7 +21,8 @@ public class Order {
     /**
      * Крайнее время оплаты
      */
-    private LocalDate deadLineOfOrder;
+    //Заменил LocalDate на LocalDateTime
+    private LocalDateTime deadLineOfOrder;
 
     /**
      * Зачисленная сумма
@@ -32,4 +33,14 @@ public class Order {
      * Сумма заказа
      */
     private BigDecimal sumToPay;
+
+    /**
+     * Сдача
+     */
+    private BigDecimal change;
+
+    /**
+     * Количество зачисленных оплат
+     */
+    private int numberOfPayments;
 }
