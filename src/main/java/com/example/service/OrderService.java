@@ -15,7 +15,6 @@ public class OrderService {
     //Переписал с compareTo
     public boolean isPaid(Order order) {
         return order.getSum().compareTo(order.getSumToPay())>=0;
-//        return Objects.equals(order.getSum(), order.getSumToPay());
     }
 
     /**
@@ -26,12 +25,11 @@ public class OrderService {
      * @param payments
      * @return заказ с зачисленными оплатами и сдачей.
      */
-    //Заменил LocalDate на LocalDateTime в переменной "deadLineOfOrder" класса Order.
     public Order pay(Order order, List<Payment> payments) {
         for (int i = 0; i <= payments.size()-1; i++) {
             Payment payment = payments.get(i);
             if (payment.getCreationTime().isAfter(order.getCreateTime()) &
-                    payment.getCreationTime().isBefore(order.getDeadLineOfOrder()) &
+                    payment.getCreationTime().isBefore(order.getDeadLineOfOrder().atTime(23, 59, 59)) &
                     order.getSum().compareTo(order.getSumToPay())<0
             ) {
                 order.setSum(order.getSum().add(payment.getSum()));
@@ -45,7 +43,6 @@ public class OrderService {
     }
 
     //TODO
-    // 3. Тесты на OrderService  (https://www.baeldung.com/parameterized-tests-junit-5)
     // 4. Паттерн Builder
 
 

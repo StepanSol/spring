@@ -21,8 +21,7 @@ public class Order {
     /**
      * Крайнее время оплаты
      */
-    //Заменил LocalDate на LocalDateTime
-    private LocalDateTime deadLineOfOrder;
+    private LocalDate deadLineOfOrder;
 
     /**
      * Зачисленная сумма
