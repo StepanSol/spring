@@ -42,4 +42,9 @@ public class Order {
      * Количество зачисленных оплат
      */
     private int numberOfPayments;
+
+    /**
+     * Тип клиента
+     */
+    private ClientType clientType;
 }

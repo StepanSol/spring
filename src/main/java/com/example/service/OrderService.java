@@ -1,10 +1,14 @@
 package com.example.service;
 
+import com.example.model.CreateOrderDTO;
 import com.example.model.Order;
 import com.example.model.Payment;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class OrderService {
 
     /**
@@ -42,8 +46,12 @@ public class OrderService {
         return order;
     }
 
-    //TODO
-    // 4. Паттерн Builder
-
-
+    public Order createOrder(CreateOrderDTO dto) {
+        return Order.builder()
+                .createTime(LocalDateTime.now())
+                .deadLineOfOrder(dto.getDeadLineOfOrder())
+                .sumToPay(dto.getSumToPay())
+                .clientType(dto.getClientType())
+                .build();
+    }
 }

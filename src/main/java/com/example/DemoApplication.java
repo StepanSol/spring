@@ -11,3 +11,9 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 }
+
+// TODO:
+//  1. Почитать про контроллеры
+//  2. Знакомство с JSON (обьект, массив, поля)
+//  3. Подать лист Пэйментов и Ордер в метод pay класса OrderService с фронта, получить в Ордер в ответе
+//  4. Протестировать REST Controller.
