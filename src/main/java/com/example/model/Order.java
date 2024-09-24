@@ -2,6 +2,7 @@ package com.example.model;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,6 +14,12 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class Order {
+
+    /**
+     * Название компанни, обрабатывающей заказ
+     */
+    private String companyName;
+
     /**
      * Время создания заказа
      */

@@ -2,7 +2,9 @@ package com.example.service;
 
 import com.example.model.CreateOrderDTO;
 import com.example.model.Order;
+import com.example.model.OrderAndPaymentDTO;
 import com.example.model.Payment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -10,6 +12,12 @@ import java.util.List;
 
 @Service
 public class OrderService {
+
+    /**
+     * Название компанни, принявшей заказ
+     */
+    @Value("${nameOfCompany}")
+    private String companyName;
 
     /**
      * Метод сравнивает Сумму, необходимую для оплаты заказа с уже оплаченной суммой
@@ -48,6 +56,7 @@ public class OrderService {
 
     public Order createOrder(CreateOrderDTO dto) {
         return Order.builder()
+                .companyName(companyName)
                 .createTime(LocalDateTime.now())
                 .deadLineOfOrder(dto.getDeadLineOfOrder())
                 .sumToPay(dto.getSumToPay())

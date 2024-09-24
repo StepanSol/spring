@@ -13,7 +13,7 @@ public class DemoApplication {
 }
 
 // TODO:
-//  1. Почитать про контроллеры
-//  2. Знакомство с JSON (обьект, массив, поля)
-//  3. Подать лист Пэйментов и Ордер в метод pay класса OrderService с фронта, получить в Ордер в ответе
-//  4. Протестировать REST Controller.
+//  1. Протестировать REST Controller (MocMvc)  https://habr.com/ru/companies/otus/articles/746414/
+//  2. Жизненный цикл бина
+//  3. Создать таблицу для payment через Liquibase. Создать в таблице payment колонку link_order. Сделать foreign key на таблицу order(link_order на id ордера)
+//  4. Сделать из order и payment Entity
