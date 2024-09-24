@@ -42,6 +42,7 @@ class OrderControllerTest {
                 .andExpect(status().isOk());
     }
 
+
     @Test
     void pay_returnsOrderAndStatusOk() throws Exception {
         Mockito.when(this.orderService.pay(orderAndPaymentDTO.getOrder(), orderAndPaymentDTO.getPayments()))

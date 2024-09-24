@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.model.Order;
 import com.example.model.Payment;
+import com.example.repository.OrderRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 class OrderServiceTest {
-    private final OrderService orderService = new OrderService();
+    private final OrderService orderService = new OrderService(null);
 
     @Test
     void isPaid() {

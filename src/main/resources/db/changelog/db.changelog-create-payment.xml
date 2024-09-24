@@ -11,14 +11,14 @@
             </column>
             <column name="creation_time" type="timestamp" remarks="Время создания оплаты"/>
             <column name="sum" type="number(10,2)" remarks="сумма оплаты"/>
-            <column name="order_id" type="bigint" remarks="Уникальный идентификатор заказа"/>
+            <column name="order_id" type="uuid" remarks="Уникальный идентификатор заказа"/>
         </createTable>
 
         <addForeignKeyConstraint baseColumnNames="order_id"
                                  baseTableName="payment"
                                  constraintName="one_to_many_order_to_payment"
                                  referencedColumnNames="id"
-                                 referencedTableName="order"/>
+                                 referencedTableName="t_order"/>
 
     </changeSet>
 
