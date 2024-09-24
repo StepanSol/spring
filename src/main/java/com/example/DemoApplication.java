@@ -15,5 +15,7 @@ public class DemoApplication {
 // TODO:
 //  1. Протестировать REST Controller (MocMvc)  https://habr.com/ru/companies/otus/articles/746414/
 //  2. Жизненный цикл бина
-//  3. Создать таблицу для payment через Liquibase. Создать в таблице payment колонку link_order. Сделать foreign key на таблицу order(link_order на id ордера)
-//  4. Сделать из order и payment Entity
+//  3. Сделать из payment Entity (связь прописывается в аннотациях)
+//  4. CRUD на Order (Создать, достать по ид, достать все)
+//  4. Сделать метод pay (посылать ид ордера и лист пэментов *использовать методы find)
+//  5. Установить DBeaver. И подключиться к БД. Либо же подключиться через ИДЕЮ.

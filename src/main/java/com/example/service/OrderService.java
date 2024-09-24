@@ -4,20 +4,26 @@ import com.example.model.CreateOrderDTO;
 import com.example.model.Order;
 import com.example.model.OrderAndPaymentDTO;
 import com.example.model.Payment;
+import com.example.repository.OrderRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
+    private final OrderRepository orderRepository;
 
     /**
      * Название компанни, принявшей заказ
      */
     @Value("${nameOfCompany}")
     private String companyName;
+
 
     /**
      * Метод сравнивает Сумму, необходимую для оплаты заказа с уже оплаченной суммой
@@ -54,13 +60,15 @@ public class OrderService {
         return order;
     }
 
+    @Transactional
     public Order createOrder(CreateOrderDTO dto) {
-        return Order.builder()
+        Order order = Order.builder()
                 .companyName(companyName)
                 .createTime(LocalDateTime.now())
                 .deadLineOfOrder(dto.getDeadLineOfOrder())
                 .sumToPay(dto.getSumToPay())
                 .clientType(dto.getClientType())
                 .build();
+        return orderRepository.save(order);
     }
 }

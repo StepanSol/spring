@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet id="create_order" author="StepanSol">
-        <createTable tableName="order">
+        <createTable tableName="t_order">
             <column name="id" type="uuid" remarks="Уникальный идентификатор">
                 <constraints primaryKey="true"/>
             </column>
@@ -15,7 +15,7 @@
             <column name="sum" type="number(10,2)" remarks="Зачисленная сумма"/>
             <column name="sum_to_pay" type="number(10,2)" remarks="Сумма заказа"/>
             <column name="change" type="number(10,2)" remarks="Сдача"/>
-            <column name="number_of_payments" type="number(10,2)" remarks="Количество зачисленных оплат"/>
+            <column name="number_of_payments" type="INT" remarks="Количество зачисленных оплат"/>
             <column name="client_type" type="text" remarks="Тип клиента"/>
         </createTable>
     </changeSet>
