@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 class OrderServiceTest {
-    private final OrderService orderService = new OrderService(null);
+    private final OrderService orderService = new OrderService(null, null);
 
     @Test
     void isPaid() {

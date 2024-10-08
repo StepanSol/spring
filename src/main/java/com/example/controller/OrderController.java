@@ -1,14 +1,12 @@
 package com.example.controller;
 
-import com.example.model.CreateOrderDTO;
-import com.example.model.Order;
-import com.example.model.OrderAndPaymentDTO;
+import com.example.model.*;
 import com.example.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +19,18 @@ public class OrderController {
         return orderService.createOrder(dto);
     }
 
+    @GetMapping("/getOrderById/{id}")
+    public Order getOrderById(@PathVariable UUID id){
+        return orderService.getOrderById(id);
+    }
+
+    @GetMapping("/getAllOrders")
+    public List<Order> getAllOrders(){
+        return orderService.getAllOrders();
+    }
+
     @PostMapping("/pay")
-    public Order order(@RequestBody OrderAndPaymentDTO orderAndPaymentDTO){
-        return orderService.pay(orderAndPaymentDTO.getOrder(), orderAndPaymentDTO.getPayments());
+    public void pay(@RequestBody OrderIdAndListOfPaymentDTO idAndPayments){
+        orderService.payById(idAndPayments.getOrderId(), idAndPayments.getPaymentsDTO());
     }
 }
