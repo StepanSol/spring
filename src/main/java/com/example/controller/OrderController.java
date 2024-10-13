@@ -20,12 +20,12 @@ public class OrderController {
     }
 
     @GetMapping("/getOrderById/{id}")
-    public Order getOrderById(@PathVariable UUID id){
+    public OrderForResponseDTO getOrderById(@PathVariable UUID id){
         return orderService.getOrderById(id);
     }
 
     @GetMapping("/getAllOrders")
-    public List<Order> getAllOrders(){
+    public List<OrderForGelAllDTO> getAllOrders(){
         return orderService.getAllOrders();
     }
 

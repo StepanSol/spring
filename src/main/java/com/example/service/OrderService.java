@@ -1,9 +1,6 @@
 package com.example.service;
 
-import com.example.model.CreateOrderDTO;
-import com.example.model.Order;
-import com.example.model.Payment;
-import com.example.model.PaymentDTO;
+import com.example.model.*;
 import com.example.repository.OrderRepository;
 import com.example.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,17 +26,6 @@ public class OrderService {
      */
     @Value("${nameOfCompany}")
     private String companyName;
-
-
-    /**
-     * Метод сравнивает Сумму, необходимую для оплаты заказа с уже оплаченной суммой
-     * @param order
-     * @return true, если заказ оплачен
-     */
-    //Переписал с compareTo
-    public boolean isPaid(Order order) {
-        return order.getSum().compareTo(order.getSumToPay())>=0;
-    }
 
     /**
      * Метод принимает заказ и List оплат, зачисляет оплаты по очереди на счет заказа.
@@ -59,7 +45,7 @@ public class OrderService {
                 order.setSum(order.getSum().add(payment.getSum()));
                 order.setNumberOfPayments(order.getNumberOfPayments()+1);
             }
-            if (order.getSum().compareTo(order.getSumToPay())>0){
+            if (order.getSum().compareTo(order.getSumToPay())>=0){
                 order.setChange(order.getSum().subtract(order.getSumToPay()));
             }
         }
@@ -68,25 +54,21 @@ public class OrderService {
 
     @Transactional
     public void payById(UUID orderId, List<PaymentDTO> paymentsDTO){
-        Optional<Order> orderOptional = Optional.ofNullable(orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoSuchElementException(String.valueOf(orderId))));
-        Order order = orderOptional.get();
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NoSuchElementException(String.valueOf(orderId)));
         for (PaymentDTO paymentDTO:paymentsDTO) {
             Payment payment = Payment.builder()
                     .creationTime(paymentDTO.getCreationTime())
                     .sum(paymentDTO.getSum())
-                    .order(order)
                     .build();
             if (payment.getCreationTime().isAfter(order.getCreateTime())&&
                     payment.getCreationTime().isBefore(order.getDeadLineOfOrder().atTime(23,59,59))&&
-                    order.getSum().compareTo(order.getSumToPay())<0
+                    !order.isPaid()
             ){
-                order.setSum(order.getSum().add(payment.getSum()));
-                order.setNumberOfPayments(order.getNumberOfPayments()+1);
-                paymentRepository.save(payment);
+                order.pay(payment);
             }
-            if (order.getSum().compareTo(order.getSumToPay())>0){
-                order.setChange(order.getSum().subtract(order.getSumToPay()));
+            if (order.isPaid()){
+                order.payChange();
             }
         }
         orderRepository.save(order);
@@ -107,11 +89,44 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order getOrderById (UUID id){
-        return orderRepository.findById(id).get();
+    public OrderForResponseDTO getOrderById (UUID id){
+        Order orderFromDB = orderRepository.findById(id).get();
+        List<PaymentDTO> paymentsDTO = new ArrayList<>();
+        for (Payment payment : orderFromDB.getPayments()){
+            paymentsDTO.add(new PaymentDTO(payment.getId(), payment.getCreationTime(), payment.getSum()));
+        }
+        return OrderForResponseDTO.builder()
+                .id(orderFromDB.getId())
+                .companyName(orderFromDB.getCompanyName())
+                .createTime(orderFromDB.getCreateTime())
+                .deadLineOfOrder(orderFromDB.getDeadLineOfOrder())
+                .sum(orderFromDB.getSum())
+                .sumToPay(orderFromDB.getSumToPay())
+                .change(orderFromDB.getChange())
+                .numberOfPayments(orderFromDB.getNumberOfPayments())
+                .isPaid(orderFromDB.isPaid())
+                .clientType(orderFromDB.getClientType())
+                .payments(paymentsDTO)
+                .build();
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public List<OrderForGelAllDTO> getAllOrders() {
+        List<Order> ordersFromDB = orderRepository.findAll();
+        List<OrderForGelAllDTO> result = new ArrayList<>();
+        for (Order orderFromDB : ordersFromDB){
+            result.add(OrderForGelAllDTO.builder()
+                    .id(orderFromDB.getId())
+                    .companyName(orderFromDB.getCompanyName())
+                    .createTime(orderFromDB.getCreateTime())
+                    .deadLineOfOrder(orderFromDB.getDeadLineOfOrder())
+                    .sum(orderFromDB.getSum())
+                    .sumToPay(orderFromDB.getSumToPay())
+                    .change(orderFromDB.getChange())
+                    .numberOfPayments(orderFromDB.getNumberOfPayments())
+                    .isPaid(orderFromDB.isPaid())
+                    .clientType(orderFromDB.getClientType())
+                    .build());
+        }
+        return result;
     }
 }

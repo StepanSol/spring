@@ -13,13 +13,10 @@ import java.util.UUID;
  */
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "payment")
 public class Payment {
-
     @Id
     @GeneratedValue
     private UUID id;
@@ -40,4 +37,10 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @Builder
+    public Payment(BigDecimal sum, LocalDateTime creationTime) {
+        this.sum = sum;
+        this.creationTime = creationTime;
+    }
 }
