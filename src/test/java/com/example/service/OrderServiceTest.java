@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.model.CreateOrderDTO;
 import com.example.model.Order;
 import com.example.model.Payment;
 import com.example.repository.OrderRepository;
@@ -21,7 +22,8 @@ class OrderServiceTest {
 
     @Test
     void isPaid() {
-        Assertions.assertFalse(orderService.isPaid(createOrder()));
+        Order order = orderService.createOrder(new CreateOrderDTO());
+        Assertions.assertTrue(order.isPaid());
     }
 
 
@@ -29,7 +31,7 @@ class OrderServiceTest {
     @MethodSource("provideOrderAndPayments")
     void parameterizedPay(Order order, List<Payment> payments) {
         Order testOrder = orderService.pay(order, payments);
-        Assertions.assertTrue(orderService.isPaid(testOrder));
+        Assertions.assertTrue(order.isPaid());
     }
 
     @ParameterizedTest
@@ -66,7 +68,7 @@ class OrderServiceTest {
         return Order.builder()
                 .createTime(LocalDateTime.of(2024, 8, 15, 9, 30, 0))
                 .deadLineOfOrder(LocalDate.of(2024, 8, 15))
-                .sum(new BigDecimal(0))
+                .sum(new BigDecimal(1000))
                 .sumToPay(new BigDecimal(1000))
                 .change(new BigDecimal(0))
                 .numberOfPayments(0)
