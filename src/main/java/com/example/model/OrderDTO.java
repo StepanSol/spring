@@ -1,7 +1,5 @@
 package com.example.model;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,7 +10,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class OrderForGelAllDTO {
+public class OrderDTO {
     private UUID id;
 
     /**

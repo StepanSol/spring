@@ -1,10 +1,15 @@
 package com.example.service;
 
+import com.example.drivermanager.CreateDataSourceForJdbcTemplate;
 import com.example.model.*;
 import com.example.repository.OrderRepository;
 import com.example.repository.PaymentRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +25,15 @@ import java.util.UUID;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
+    private JdbcTemplate jdbcTemplate = new JdbcTemplate(CreateDataSourceForJdbcTemplate.getDataSource());
+    @PersistenceContext()
+    private EntityManager entityManager;
 
     /**
-     * Название компанни, принявшей заказ
+     * Название компании, принявшей заказ
      */
     @Value("${nameOfCompany}")
     private String companyName;
-
     /**
      * Метод принимает заказ и List оплат, зачисляет оплаты по очереди на счет заказа.
      * При зачислении суммы, превышающей сумму заказа, остаток зачисляется в поле change(Сдача).
@@ -110,23 +117,55 @@ public class OrderService {
                 .build();
     }
 
-    public List<OrderForGelAllDTO> getAllOrders() {
-        List<Order> ordersFromDB = orderRepository.findAll();
-        List<OrderForGelAllDTO> result = new ArrayList<>();
-        for (Order orderFromDB : ordersFromDB){
-            result.add(OrderForGelAllDTO.builder()
-                    .id(orderFromDB.getId())
-                    .companyName(orderFromDB.getCompanyName())
-                    .createTime(orderFromDB.getCreateTime())
-                    .deadLineOfOrder(orderFromDB.getDeadLineOfOrder())
-                    .sum(orderFromDB.getSum())
-                    .sumToPay(orderFromDB.getSumToPay())
-                    .change(orderFromDB.getChange())
-                    .numberOfPayments(orderFromDB.getNumberOfPayments())
-                    .isPaid(orderFromDB.isPaid())
-                    .clientType(orderFromDB.getClientType())
-                    .build());
-        }
-        return result;
+    public List<OrderDTO> getAllOrdersStream() {
+        return orderRepository.findAll().stream()
+                .map(this::mapOrderToDTO)
+                .toList();
+    }
+
+    public List<OrderDTO> getActualOrders() {
+        return orderRepository.getActualOrders().stream()
+                .map(this::mapOrderToDTO)
+                .toList();
+    }
+
+    public List<OrderDTO> getByClientTypeHQL(ClientType clientType) {
+        List<Order> orders = entityManager.createQuery("FROM Order WHERE clientType = :clientType",
+                Order.class)
+                .setParameter("clientType", clientType)
+                .getResultList();
+        return orders.stream()
+                .map(this::mapOrderToDTO)
+                .toList();
+    }
+
+    public List<OrderDTO> getByClientTypeSQL(ClientType clientType) {
+        List<Order> orders = this.jdbcTemplate.query("SELECT * FROM t_order WHERE client_type = ?",
+                new BeanPropertyRowMapper<Order>(Order.class), clientType.toString());
+        return orders.stream()
+                .map(this::mapOrderToDTO)
+                .toList();
+    }
+
+    public List<OrderDTO> getByClientTypeSpringData(ClientType clientType) {
+        List<Order> orders = orderRepository.findByClientType(clientType);
+        return orders.stream()
+                .map(this::mapOrderToDTO)
+                .toList();
+    }
+
+    public OrderDTO mapOrderToDTO(Order order){
+    return OrderDTO.builder()
+            .id(order.getId())
+            .companyName(order.getCompanyName())
+            .createTime(order.getCreateTime())
+            .deadLineOfOrder(order.getDeadLineOfOrder())
+            .sum(order.getSum())
+            .sumToPay(order.getSumToPay())
+            .change(order.getChange())
+            .numberOfPayments(order.getNumberOfPayments())
+            .isPaid(order.isPaid())
+            .clientType(order.getClientType())
+            .build();
     }
 }

@@ -1,16 +1,15 @@
 package com.example.model;
 
-
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@AllArgsConstructor
+@Builder
 @Getter
-public class PaymentDTO{
+public class MaxSumPaymentDTO {
     private UUID id;
 
     /**
@@ -22,4 +21,6 @@ public class PaymentDTO{
      * Сумма оплаты
      */
     private BigDecimal sum;
+
+    private UUID orderID;
 }
