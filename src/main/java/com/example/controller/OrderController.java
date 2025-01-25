@@ -25,12 +25,32 @@ public class OrderController {
     }
 
     @GetMapping("/getAllOrders")
-    public List<OrderForGelAllDTO> getAllOrders(){
-        return orderService.getAllOrders();
+    public List<OrderDTO> getAllOrders(){
+        return orderService.getAllOrdersStream();
     }
 
     @PostMapping("/pay")
     public void pay(@RequestBody OrderIdAndListOfPaymentDTO idAndPayments){
         orderService.payById(idAndPayments.getOrderId(), idAndPayments.getPaymentsDTO());
+    }
+
+    @GetMapping("/getActualOrders")
+    public List<OrderDTO> getActualOrders(){
+        return orderService.getActualOrders();
+    }
+
+    @PostMapping("/getOrdersByClientTypeHQL")
+    public List<OrderDTO> getByClientTypeHQL(@RequestBody ClientType clientType){
+       return orderService.getByClientTypeHQL(clientType);
+    }
+
+    @PostMapping("/getOrdersByClientTypeSQL")
+    public List<OrderDTO> getByClientTypeSQL(@RequestBody ClientType clientType){
+        return orderService.getByClientTypeSQL(clientType);
+    }
+
+    @PostMapping("/getOrdersByClientTypeSpringData")
+    public List<OrderDTO> getByClientType(@RequestBody ClientType clientType){
+        return orderService.getByClientTypeSpringData(clientType);
     }
 }

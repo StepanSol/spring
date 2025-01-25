@@ -9,7 +9,7 @@
             <column name="id" type="uuid" remarks="Уникальный идентификатор">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="company_name" type="text" remarks="Название компанни, обрабатывающей заказ"/>
+            <column name="company_name" type="text" remarks="Название компании, обрабатывающей заказ"/>
             <column name="create_time" type="timestamp" remarks="Время создания заказа"/>
             <column name="dead_line_of_order" type="date" remarks="Крайнее время оплаты"/>
             <column name="sum" type="number(10,2)" remarks="Зачисленная сумма"/>
