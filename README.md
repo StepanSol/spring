@@ -9,7 +9,7 @@
 - lombok 1.18.34
 - PostgreSQL 16.4
 - Liquibase
--Mockito
+- Mockito
 - openapi 2.6.0
 - Stream API
 - SQL
