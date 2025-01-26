@@ -1,41 +1,38 @@
-Java language level: 22
-Spring:  3.3.2
-Spring WEB 
-Spring Data
-hibernate
-HQL
-JDBC template
-Maven
-lombok 1.18.34
-PostgreSQL 16.4
-Liquibase
-Mockito
-openapi 2.6.0
-Stream API
-SQL
+- Java language level: 22
+- Spring:  3.3.2
+- Spring WEB 
+- Spring Data
+- hibernate
+- HQL
+- JDBC template
+- Maven
+- lombok 1.18.34
+- PostgreSQL 16.4
+- Liquibase
+-Mockito
+- openapi 2.6.0
+- Stream API
+- SQL
 
-![Диаграмма таблиц](https://github.com/StepanSol/spring/blob/main/Диаграмма%20таблиц.png)
-
-#Сервис предоставляет работу с заказами:
+# Сервис предоставляет работу с заказами:
 
 **order-controller:**
-*createOrder* - создание заказа. (Время создания заказа - момент запроса; принимает "Дедлайн", сумму для оплаты и тип клиента)
-*getOrderById/{id}* - Возвращает заказ по ID.
-*getAllOrders* - Возвращает список всех заказов.
-*getActualOrders* - возвращает актуальные заказы (у которых не просрочен "Дедлайн").
-*getOrdersByClientTypeSQL(так же HQL и Spring Data)* - Возвращает заказ по типу клиента.
-*pay* - производит оплату по ID заказа. (Может передаваться один ID заказа и список оплат). Если заказ оплачен, оплата не зачисляется. Если сумма оплаты превышает требуемую сумму оплаты заказа, начисляется сдача. 
+- *createOrder* - создание заказа. (Время создания заказа - момент запроса; принимает "Дедлайн", сумму для оплаты и тип клиента)
+- *getOrderById/{id}* - Возвращает заказ по ID.
+- *getAllOrders* - Возвращает список всех заказов.
+- *getActualOrders* - возвращает актуальные заказы (у которых не просрочен "Дедлайн").
+- *getOrdersByClientTypeSQL(так же HQL и Spring Data)* - Возвращает заказ по типу клиента.
+- *pay* - производит оплату по ID заказа. (Может передаваться один ID заказа и список оплат). Если заказ оплачен, оплата не зачисляется. Если сумма оплаты превышает требуемую сумму оплаты заказа, начисляется сдача. 
 
 **payment-controller:**
-*getMaxSumPaymentQuery (так же через StreamAPI и CleanJava)* - возвращает оплату с наибольшей суммой.
-
-
+- *getMaxSumPaymentQuery (так же через StreamAPI и CleanJava)* - возвращает оплату с наибольшей суммой.
 
 Некоторые методы продублированы с использованием различных технологий: "getOrdersByClientTypeHQL", "getOrdersByClientTypeSQL", "getOrdersByClientTypeSpringData".
 
 
 [swagger for this project](http://localhost:8080/swagger-ui/index.html#)
 
+![Диаграмма таблиц](https://github.com/StepanSol/spring/blob/main/Диаграмма%20таблиц.png)
 
 # Road Map
 
